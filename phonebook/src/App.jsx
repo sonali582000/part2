@@ -28,16 +28,20 @@ const App = () => {
     const personName = {
       name: newName,
       number: newNum,
-      id: Math.random() * 54367,
     };
 
     const filteredPerson = persons.filter(
-      (person) => person.name === personName.name
+      (person) =>
+        person.name === personName.name && person.number === personName.number
     );
 
     filteredPerson.length > 0
       ? alert(`${newName} is already added to phonebook`)
-      : console.log(persons);
+      : axios
+          .post("http://localhost:3001/persons", personName)
+          .then((response) => {
+            console.log(response);
+          });
 
     setPersons(persons.concat(personName));
     setNewName("");
